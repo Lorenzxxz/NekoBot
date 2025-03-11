@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Gateway</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        input, textarea {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid rgba(255, 255, 255, 0.5); 
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1); 
+            color: white;
+            outline: none;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            width: 90%;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background: #999999;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 4px 4px 0px black, 8px 8px 0px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        button:hover {
+            box-shadow: 2px 2px 0px black, 4px 4px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        button:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px black;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>WhatsApp Gateway</h2>
+        <form id="waForm">
+            <input type="text" id="number" placeholder="Nomor WhatsApp (628xxx)" required>
+            <textarea id="message" placeholder="Pesan..." required></textarea>
+            <button type="submit">Kirim</button>
+        </form>
+        <p id="response"></p>
+    </div>
+
+    <script>
+        document.getElementById("waForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const number = document.getElementById("number").value;
+            const message = document.getElementById("message").value;
+            const responseText = document.getElementById("response");
+            responseText.innerText = "Mengirim...";
+
+            try {
+                const res = await fetch("/send", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ number, message })
+                });
+
+                const data = await res.json();
+                responseText.innerText = data.success ? data.message : "Gagal mengirim!";
+            } catch (error) {
+                responseText.innerText = "Terjadi kesalahan!";
+            }
+        });
+    </script>
+
+</body>
+</html>
