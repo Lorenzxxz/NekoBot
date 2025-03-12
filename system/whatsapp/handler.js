@@ -53,8 +53,7 @@ module.exports = async (m, sock, store) => {
   const args = text.trim().split(/\s+/).slice(1);
 
   if (isCmd) {
-    require("./whatsapp.js")
-    require("./socket.js")(
+    require("./whatsapp.js")(
       m,
       sock,
       config,
