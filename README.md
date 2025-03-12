@@ -53,7 +53,7 @@ $ npm start
 │── package.json     # Dependensi proyek
 │── settings/configuration.js # Konfigurasi bot
 ```
-## ⚙️ Settings Bot ***( settings.js )***
+## ⚙️ Settings Bot ***( settings/configuration.js )***
 
 ```javascript
 const fs = require("fs");
